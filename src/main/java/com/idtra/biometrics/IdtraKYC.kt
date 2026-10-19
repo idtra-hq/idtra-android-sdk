@@ -18,6 +18,13 @@ object IdtraKYC {
     var defaultBaseUrl: String = "https://idtra.com"
 
     /**
+     * Recommended (v2): open the hosted verification page created by YOUR SERVER (verification_url from
+     * POST /api/biometrics/session/create). No API key in the app. See [IdtraSession].
+     */
+    fun startSession(context: Context, verificationUrl: String, onResult: (IdtraSessionResult) -> Unit) =
+        IdtraSession.start(context, verificationUrl, onResult = onResult)
+
+    /**
      * Start the Biometric Face Verification Activity.
      *
      * @param launcher ActivityResultLauncher configured to receive the verification result intent.
@@ -25,6 +32,7 @@ object IdtraKYC {
      * @param serviceType "NIN" or "BVN"
      * @param number 11-digit NIN or BVN number
      */
+    @Deprecated("Ships your secret API key inside the app, where anyone can extract it. Use startSession().")
     fun startVerification(
         context: Context,
         launcher: ActivityResultLauncher<Intent>,
